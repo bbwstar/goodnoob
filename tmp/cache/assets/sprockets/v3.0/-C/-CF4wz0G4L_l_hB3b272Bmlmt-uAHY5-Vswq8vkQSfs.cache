@@ -1,0 +1,39 @@
+I"0(function() {
+  $(function() {
+    if ($('#product_sub_category_id').length === 0) {
+      return;
+    }
+    return $('#product_sub_category_id').change(function() {
+      if (typeof gon !== 'undefined' && typeof gon.product_id !== 'undefined') {
+        return $.get('/ajax_get_filter_options/' + $(this).val() + '?product_id=' + gon.product_id, function(data) {
+          return $('#product_filter_options_input').html(data);
+        });
+      } else {
+        return $.get('/ajax_get_filter_options/' + $(this).val(), function(data) {
+          return $('#product_filter_options_input').html(data);
+        });
+      }
+    });
+  });
+
+  $(document).ready(function() {
+    var product_id;
+    if ($('#product_sub_category_id').length === 0) {
+      return;
+    }
+    product_id = gon.product_id;
+    if ($('#product_sub_category_id').val() > 0) {
+      if (product_id.length === 0) {
+        return $.get('/ajax_get_filter_options/' + $('#product_sub_category_id').val(), function(data) {
+          return $('#product_filter_options_input').html(data);
+        });
+      } else {
+        return $.get('/ajax_get_filter_options/' + $('#product_sub_category_id').val() + '?product_id=' + product_id, function(data) {
+          return $('#product_filter_options_input').html(data);
+        });
+      }
+    }
+  });
+
+}).call(this);
+:ET

@@ -1,0 +1,34 @@
+I"r(function() {
+  $(function() {
+    $(document).on('change', 'select.leader', function() {
+      var dependants, leader, leader_id, leader_val;
+      leader = $(this);
+      if (!(leader_id = leader.attr('id'))) {
+        return;
+      }
+      leader_val = leader.val();
+      dependants = $("select[data-leader='" + leader_id + "']").not(leader);
+      dependants.each(function() {
+        var dependant, dependant_id, options, storages;
+        dependant = $(this);
+        dependant.val('');
+        dependant.prop('disabled', true);
+        dependant.children().not("option:first[value='']").remove();
+        if (!(leader_val && (dependant_id = dependant.attr('id')))) {
+          return;
+        }
+        storages = $("select.storage[data-owner='" + leader_id + "'][data-dependant~='" + dependant_id + "']");
+        options = storages.children("optgroup[label='" + leader_val + "']").children('option').clone();
+        if (options.length) {
+          dependant.append(options);
+          dependant.prop('disabled', false);
+        }
+        return true;
+      });
+      return true;
+    });
+    return true;
+  });
+
+}).call(this);
+:ET

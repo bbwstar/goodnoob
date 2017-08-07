@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+<div class="sides-indents">
+<%= render partial: 'profile_top' %>
+<%= render partial: 'nav_filters' %>
+<div class="profile-section">
+  <h1>Account settings</h1>
+</div>
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :role => 'form'}) do |f| %>
+        <%= devise_error_messages! %>
+    <div class="edit-user-background">
+      <div class="authform side-edit-columns" >
+
+        <div class="form-group">
+          <%= f.label "E-mail address" %>
+          <%= f.email_field :email, class: 'form-control', placeholder: "Email" %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label "Current password" %>
+          <%= f.password_field :current_password, :autocomplete => 'off', class: 'form-control', placeholder: "Current Password" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label "New Password" %>
+          <%= f.password_field :password, :autocomplete => 'off', class: 'form-control', placeholder: "New Password" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label "Language" %>
+          <div class="form-right">
+            <div class="select-wrapper">
+              <%= f.collection_select :language_id, Language.all, :id, :name %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label "Currency" %>
+          <div class="form-right">
+            <div class="select-wrapper">
+              <%= f.collection_select :currency_id, Currency.all, :id, :name %>
+            </div>
+          </div>
+        </div>
+
+    <div class="edit-buttons">
+      <%= f.submit 'Save changes', class: 'button save_changes', style: "background:#00b2ff;" %>
+      <%= link_to "Logout", destroy_user_session_path, :method => :delete, class: 'button', style: "background:#3d80a2;" %>
+    </div>
+    <div class="edit-buttons">
+      <%= link_to "Delete Account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button right' %>
+    </div>
+
+      </div>
+
+    </div>
+
+  <% end %>
+
+
+
+</div>
